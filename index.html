@@ -125,7 +125,13 @@
     </section>
 
     <section class="laps-section" aria-labelledby="laps-heading">
-      <h2 id="laps-heading">Laps</h2>
+      <div class="laps-section-header">
+        <h2 id="laps-heading">Laps</h2>
+        <button type="button" id="clear-laps-btn" class="clear-laps-btn ripple-target" aria-label="Clear all laps" disabled>
+          <span class="btn-icon" aria-hidden="true">&#128465;</span>
+          <span class="btn-label">Clear All</span>
+        </button>
+      </div>
       <div class="laps-scroll-container" tabindex="0" aria-label="Lap list, scrollable">
         <ol class="laps-list" id="laps-list">
           <li class="laps-empty" id="laps-empty">No laps recorded yet.</li>
