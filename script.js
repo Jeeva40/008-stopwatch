@@ -25,6 +25,10 @@
 
   const currentYearEl = document.getElementById("current-year");
 
+  const displayRing = document.getElementById("display-ring");
+  const statusBadge = document.getElementById("status-badge");
+  const statusText = document.getElementById("status-text");
+
   let startTimestamp = 0;
   let elapsedBeforePause = 0;
   let timerId = null;
@@ -70,6 +74,19 @@
     timerId = requestAnimationFrame(tick);
   }
 
+  function setStatus(state) {
+    statusBadge.classList.remove("is-running", "is-paused");
+    if (state === "running") {
+      statusBadge.classList.add("is-running");
+      statusText.textContent = "Running";
+    } else if (state === "paused") {
+      statusBadge.classList.add("is-paused");
+      statusText.textContent = "Paused";
+    } else {
+      statusText.textContent = "Ready";
+    }
+  }
+
   function start() {
     if (isRunning) return;
     isRunning = true;
@@ -80,7 +97,9 @@
     pauseBtn.disabled = false;
     lapBtn.disabled = false;
     resetBtn.disabled = false;
-    startBtn.textContent = "Running";
+    startBtn.querySelector(".btn-label").textContent = "Running";
+    displayRing.classList.add("is-running");
+    setStatus("running");
   }
 
   function pause() {
@@ -93,7 +112,9 @@
     startBtn.disabled = false;
     pauseBtn.disabled = true;
     lapBtn.disabled = true;
-    startBtn.textContent = "Resume";
+    startBtn.querySelector(".btn-label").textContent = "Resume";
+    displayRing.classList.remove("is-running");
+    setStatus("paused");
   }
 
   function reset() {
@@ -112,7 +133,9 @@
     resetBtn.disabled = true;
     exportCsvBtn.disabled = true;
     copyLapsBtn.disabled = true;
-    startBtn.textContent = "Start";
+    startBtn.querySelector(".btn-label").textContent = "Start";
+    displayRing.classList.remove("is-running");
+    setStatus("ready");
   }
 
   function recordLap() {
@@ -131,6 +154,10 @@
     updateStats();
     exportCsvBtn.disabled = false;
     copyLapsBtn.disabled = false;
+
+    lapBtn.classList.remove("is-pulsing");
+    void lapBtn.offsetWidth;
+    lapBtn.classList.add("is-pulsing");
   }
 
   function deleteLap(lapNumber) {
@@ -321,6 +348,23 @@
         break;
     }
   }
+
+  function createRipple(event) {
+    const button = event.currentTarget;
+    const rect = button.getBoundingClientRect();
+    const size = Math.max(rect.width, rect.height);
+    const ripple = document.createElement("span");
+    ripple.className = "ripple";
+    ripple.style.width = ripple.style.height = `${size}px`;
+    ripple.style.left = `${event.clientX - rect.left - size / 2}px`;
+    ripple.style.top = `${event.clientY - rect.top - size / 2}px`;
+    button.appendChild(ripple);
+    ripple.addEventListener("animationend", () => ripple.remove());
+  }
+
+  document.querySelectorAll(".ripple-target").forEach((el) => {
+    el.addEventListener("click", createRipple);
+  });
 
   startBtn.addEventListener("click", start);
   pauseBtn.addEventListener("click", pause);

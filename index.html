@@ -4,18 +4,32 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Stopwatch</title>
-  <meta name="description" content="A professional, accessible stopwatch application with lap tracking, statistics, and CSV export." />
+  <meta name="description" content="A premium glassmorphism stopwatch application with lap tracking, statistics, and CSV export." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <div class="background-glow" aria-hidden="true">
+    <span class="orb orb--one"></span>
+    <span class="orb orb--two"></span>
+    <span class="orb orb--three"></span>
+  </div>
+
   <header class="app-header">
-    <h1 class="app-title">Stopwatch</h1>
+    <h1 class="app-title">
+      <span class="app-title-icon" aria-hidden="true">&#9201;</span>
+      Stopwatch
+    </h1>
     <div class="header-actions">
-      <button type="button" id="theme-toggle" class="icon-button" aria-label="Toggle dark and light theme" aria-pressed="false">
+      <button type="button" id="theme-toggle" class="icon-button ripple-target" aria-label="Toggle dark and light theme" aria-pressed="false">
         <span class="icon" aria-hidden="true">&#9788;</span>
         <span class="visually-hidden">Toggle theme</span>
       </button>
-      <button type="button" id="fullscreen-toggle" class="icon-button" aria-label="Toggle fullscreen mode" aria-pressed="false">
+      <button type="button" id="fullscreen-toggle" class="icon-button ripple-target" aria-label="Toggle fullscreen mode" aria-pressed="false">
         <span class="icon" aria-hidden="true">&#10021;</span>
         <span class="visually-hidden">Toggle fullscreen</span>
       </button>
@@ -26,49 +40,64 @@
     <section class="stopwatch-section" aria-labelledby="stopwatch-heading">
       <h2 id="stopwatch-heading" class="visually-hidden">Stopwatch Display</h2>
 
-      <div class="stopwatch-display" role="timer" aria-live="off" aria-label="Elapsed time">
-        <div class="time-unit">
-          <span class="time-value" id="hours">00</span>
-          <span class="time-label">Hours</span>
-        </div>
-        <span class="time-separator" aria-hidden="true">:</span>
-        <div class="time-unit">
-          <span class="time-value" id="minutes">00</span>
-          <span class="time-label">Minutes</span>
-        </div>
-        <span class="time-separator" aria-hidden="true">:</span>
-        <div class="time-unit">
-          <span class="time-value" id="seconds">00</span>
-          <span class="time-label">Seconds</span>
-        </div>
-        <span class="time-separator time-separator--ms" aria-hidden="true">.</span>
-        <div class="time-unit time-unit--ms">
-          <span class="time-value" id="milliseconds">000</span>
-          <span class="time-label">Milliseconds</span>
+      <div class="status-badge" id="status-badge">
+        <span class="status-dot" id="status-dot" aria-hidden="true"></span>
+        <span id="status-text">Ready</span>
+      </div>
+
+      <div class="display-ring" id="display-ring">
+        <div class="stopwatch-display" role="timer" aria-live="off" aria-label="Elapsed time">
+          <div class="time-main">
+            <div class="time-unit">
+              <span class="time-value" id="hours">00</span>
+              <span class="time-label">Hours</span>
+            </div>
+            <span class="time-separator" aria-hidden="true">:</span>
+            <div class="time-unit">
+              <span class="time-value" id="minutes">00</span>
+              <span class="time-label">Minutes</span>
+            </div>
+            <span class="time-separator" aria-hidden="true">:</span>
+            <div class="time-unit">
+              <span class="time-value" id="seconds">00</span>
+              <span class="time-label">Seconds</span>
+            </div>
+          </div>
+          <div class="time-unit time-unit--ms">
+            <span class="time-separator time-separator--ms" aria-hidden="true">.</span>
+            <span class="time-value" id="milliseconds">000</span>
+            <span class="time-label">Milliseconds</span>
+          </div>
         </div>
       </div>
 
       <div class="controls" role="group" aria-label="Stopwatch controls">
-        <button type="button" id="start-btn" class="control-button control-button--primary" aria-label="Start stopwatch">
-          Start
+        <button type="button" id="start-btn" class="control-button control-button--primary ripple-target" aria-label="Start stopwatch">
+          <span class="btn-icon" aria-hidden="true">&#9654;</span>
+          <span class="btn-label">Start</span>
         </button>
-        <button type="button" id="pause-btn" class="control-button" aria-label="Pause stopwatch" disabled>
-          Pause
+        <button type="button" id="pause-btn" class="control-button ripple-target" aria-label="Pause stopwatch" disabled>
+          <span class="btn-icon" aria-hidden="true">&#10074;&#10074;</span>
+          <span class="btn-label">Pause</span>
         </button>
-        <button type="button" id="lap-btn" class="control-button" aria-label="Record lap" disabled>
-          Lap
+        <button type="button" id="lap-btn" class="control-button ripple-target" aria-label="Record lap" disabled>
+          <span class="btn-icon" aria-hidden="true">&#9873;</span>
+          <span class="btn-label">Lap</span>
         </button>
-        <button type="button" id="reset-btn" class="control-button control-button--danger" aria-label="Reset stopwatch" disabled>
-          Reset
+        <button type="button" id="reset-btn" class="control-button control-button--danger ripple-target" aria-label="Reset stopwatch" disabled>
+          <span class="btn-icon" aria-hidden="true">&#8635;</span>
+          <span class="btn-label">Reset</span>
         </button>
       </div>
 
       <div class="export-controls" role="group" aria-label="Export controls">
-        <button type="button" id="export-csv-btn" class="control-button control-button--secondary" aria-label="Export laps as CSV" disabled>
-          Export CSV
+        <button type="button" id="export-csv-btn" class="control-button control-button--secondary ripple-target" aria-label="Export laps as CSV" disabled>
+          <span class="btn-icon" aria-hidden="true">&#8681;</span>
+          <span class="btn-label">Export CSV</span>
         </button>
-        <button type="button" id="copy-laps-btn" class="control-button control-button--secondary" aria-label="Copy laps to clipboard" disabled>
-          Copy Laps
+        <button type="button" id="copy-laps-btn" class="control-button control-button--secondary ripple-target" aria-label="Copy laps to clipboard" disabled>
+          <span class="btn-icon" aria-hidden="true">&#10697;</span>
+          <span class="btn-label">Copy Laps</span>
         </button>
       </div>
     </section>
@@ -80,11 +109,11 @@
           <dt class="stat-label">Total Laps</dt>
           <dd class="stat-value" id="stat-total">0</dd>
         </div>
-        <div class="stat-card">
+        <div class="stat-card stat-card--fastest">
           <dt class="stat-label">Fastest Lap</dt>
           <dd class="stat-value" id="stat-fastest">&mdash;</dd>
         </div>
-        <div class="stat-card">
+        <div class="stat-card stat-card--slowest">
           <dt class="stat-label">Slowest Lap</dt>
           <dd class="stat-value" id="stat-slowest">&mdash;</dd>
         </div>
