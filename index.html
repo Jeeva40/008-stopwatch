@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stopwatch</title>
+  <meta name="description" content="A professional, accessible stopwatch application with lap tracking, statistics, and CSV export." />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="app-header">
+    <h1 class="app-title">Stopwatch</h1>
+    <div class="header-actions">
+      <button type="button" id="theme-toggle" class="icon-button" aria-label="Toggle dark and light theme" aria-pressed="false">
+        <span class="icon" aria-hidden="true">&#9788;</span>
+        <span class="visually-hidden">Toggle theme</span>
+      </button>
+      <button type="button" id="fullscreen-toggle" class="icon-button" aria-label="Toggle fullscreen mode" aria-pressed="false">
+        <span class="icon" aria-hidden="true">&#10021;</span>
+        <span class="visually-hidden">Toggle fullscreen</span>
+      </button>
+    </div>
+  </header>
+
+  <main class="app-main">
+    <section class="stopwatch-section" aria-labelledby="stopwatch-heading">
+      <h2 id="stopwatch-heading" class="visually-hidden">Stopwatch Display</h2>
+
+      <div class="stopwatch-display" role="timer" aria-live="off" aria-label="Elapsed time">
+        <div class="time-unit">
+          <span class="time-value" id="hours">00</span>
+          <span class="time-label">Hours</span>
+        </div>
+        <span class="time-separator" aria-hidden="true">:</span>
+        <div class="time-unit">
+          <span class="time-value" id="minutes">00</span>
+          <span class="time-label">Minutes</span>
+        </div>
+        <span class="time-separator" aria-hidden="true">:</span>
+        <div class="time-unit">
+          <span class="time-value" id="seconds">00</span>
+          <span class="time-label">Seconds</span>
+        </div>
+        <span class="time-separator time-separator--ms" aria-hidden="true">.</span>
+        <div class="time-unit time-unit--ms">
+          <span class="time-value" id="milliseconds">000</span>
+          <span class="time-label">Milliseconds</span>
+        </div>
+      </div>
+
+      <div class="controls" role="group" aria-label="Stopwatch controls">
+        <button type="button" id="start-btn" class="control-button control-button--primary" aria-label="Start stopwatch">
+          Start
+        </button>
+        <button type="button" id="pause-btn" class="control-button" aria-label="Pause stopwatch" disabled>
+          Pause
+        </button>
+        <button type="button" id="lap-btn" class="control-button" aria-label="Record lap" disabled>
+          Lap
+        </button>
+        <button type="button" id="reset-btn" class="control-button control-button--danger" aria-label="Reset stopwatch" disabled>
+          Reset
+        </button>
+      </div>
+
+      <div class="export-controls" role="group" aria-label="Export controls">
+        <button type="button" id="export-csv-btn" class="control-button control-button--secondary" aria-label="Export laps as CSV" disabled>
+          Export CSV
+        </button>
+        <button type="button" id="copy-laps-btn" class="control-button control-button--secondary" aria-label="Copy laps to clipboard" disabled>
+          Copy Laps
+        </button>
+      </div>
+    </section>
+
+    <section class="stats-section" aria-labelledby="stats-heading">
+      <h2 id="stats-heading">Statistics</h2>
+      <dl class="stats-grid">
+        <div class="stat-card">
+          <dt class="stat-label">Total Laps</dt>
+          <dd class="stat-value" id="stat-total">0</dd>
+        </div>
+        <div class="stat-card">
+          <dt class="stat-label">Fastest Lap</dt>
+          <dd class="stat-value" id="stat-fastest">&mdash;</dd>
+        </div>
+        <div class="stat-card">
+          <dt class="stat-label">Slowest Lap</dt>
+          <dd class="stat-value" id="stat-slowest">&mdash;</dd>
+        </div>
+        <div class="stat-card">
+          <dt class="stat-label">Average Lap</dt>
+          <dd class="stat-value" id="stat-average">&mdash;</dd>
+        </div>
+      </dl>
+    </section>
+
+    <section class="laps-section" aria-labelledby="laps-heading">
+      <h2 id="laps-heading">Laps</h2>
+      <div class="laps-scroll-container" tabindex="0" aria-label="Lap list, scrollable">
+        <ol class="laps-list" id="laps-list">
+          <li class="laps-empty" id="laps-empty">No laps recorded yet.</li>
+        </ol>
+      </div>
+    </section>
+  </main>
+
+  <footer class="app-footer">
+    <p>&copy; <span id="current-year"></span> Stopwatch App. Built with semantic HTML5.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
